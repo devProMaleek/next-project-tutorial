@@ -1,6 +1,5 @@
 import React from 'react';
 import MeetupList from '../components/meetups/MeetupList';
-import Layout from '../components/layout/Layout';
 
 const index = () => {
   return (
@@ -11,6 +10,16 @@ const index = () => {
 };
 
 export default index;
+
+export const getStaticProps = async () => {
+  // fetch data from an API
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+    revalidate: 1,
+  };
+};
 
 export const DUMMY_MEETUPS = [
   {
