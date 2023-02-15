@@ -1,13 +1,19 @@
 import React from 'react';
+import axios from 'axios';
 import MeetupDetails from '../../components/meetups/MeetupDetails';
 import { DUMMY_MEETUPS as meetups } from '../index';
 
-const MeetupDetailsPage = () => {
-  const meetup = meetups.find((meetup) => meetup.id === 'm1');
-  console.log(meetup);
+const MeetupDetailsPage = (props) => {
+  const meetupData = props.meetupData;
   return (
     <>
-      <MeetupDetails image={meetup.image} title={meetup.title} description= {meetup.description} id={meetup.id} address={meetup.address} />
+      <MeetupDetails
+        image={meetupData.image}
+        title={meetupData.title}
+        description={meetupData.description}
+        id={meetupData.id}
+        address={meetupData.address}
+      />
     </>
   );
 };
@@ -15,27 +21,30 @@ const MeetupDetailsPage = () => {
 export default MeetupDetailsPage;
 
 export const getStaticPaths = async () => {
+  const response = await axios.get('http://localhost:3000/api/getMeetupId');
+  const meetupIds = response.data.meetupIds;
+  const paths = meetupIds.map((meetupId) => {
+    return { params: { meetupId: meetupId.id } };
+  });
   return {
     fallback: false,
-    paths: [
-      { params: { meetupId: 'm1' } },
-      { params: { meetupId: 'm2' } },
-    ],
+    paths: paths,
   };
-}
+};
 
 export const getStaticProps = async (context) => {
   const meetupId = context.params.meetupId;
-  console.log(meetupId);
+  const response = await axios({
+    method: 'GET',
+    url: 'http://localhost:3000/api/getSingleMeetup',
+    params: {
+      meetupId: meetupId,
+    },
+  });
+  const meetupData = response.data.meetupId;
   return {
     props: {
-      meetupData: {
-        image: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Flag_of_the_United_States.svg',
-        id: meetupId,
-        title: 'A First Meetup',
-        address: 'Some Address 5, 12345 Some City',
-        description: 'This is a first meetup!',
-      },
+      meetupData: meetupData,
     },
   };
-}
+};

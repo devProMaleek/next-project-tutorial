@@ -1,7 +1,4 @@
-import { MongoClient } from 'mongodb';
-const uri =
-  'mongodb+srv://devProMaleek:devProMaleek07@devpromaleek-cluster.l00joyx.mongodb.net/meetups?retryWrites=true&w=majority';
-const client = new MongoClient(uri, { useNewUrlParser: true });
+import { client } from '../../utils/mongoClient';
 
 export default async function handler(request, response) {
   if (request.method === 'POST') {
@@ -19,5 +16,8 @@ export default async function handler(request, response) {
     } finally {
       await client.close();
     }
+  } else {
+    response.status(404).json({ message: 'Invalid request' });
+    return;
   }
 }

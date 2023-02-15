@@ -1,10 +1,20 @@
 import React from 'react';
 import MeetupList from '../components/meetups/MeetupList';
+import axios from 'axios';
 
-const index = () => {
+const index = (props) => {
+  const handler = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/getMeetupId');
+      console.log(response.data.meetupIds);
+    } catch (error) {
+      console.log(error.message);
+  }
+  }
+  handler();
   return (
     <>
-      <MeetupList meetups={DUMMY_MEETUPS} />
+      <MeetupList meetups={props.meetups} />
     </>
   );
 };
@@ -13,9 +23,12 @@ export default index;
 
 export const getStaticProps = async () => {
   // fetch data from an API
+  const response = await axios.get('http://localhost:3000/api/getMeetups');
+  const meetups = response.data.meetups;
+  console.log(meetups)
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetups,
     },
     revalidate: 1,
   };

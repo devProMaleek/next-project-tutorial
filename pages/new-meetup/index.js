@@ -1,8 +1,8 @@
 import React from 'react';
 import NewMeetUpForm from '../../components/meetups/NewMeetUpForm';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/router';
 
 const NewMeetUpPage = () => {
   const router = useRouter();
@@ -18,8 +18,10 @@ const NewMeetUpPage = () => {
       });
       console.log(response);
       toast.dismiss();
-      toast.success(response.data.message);
-      router.push('/');
+      if (response.status === 201) {
+        toast.success(response.data.message);
+        router.push('/');
+      }
     } catch (error) {
       toast.dismiss();
       if (error.response) {
