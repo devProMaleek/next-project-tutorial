@@ -1,6 +1,7 @@
 import React from 'react';
 import MeetupList from '../components/meetups/MeetupList';
 import axios from 'axios';
+import Head from 'next/head';
 
 const index = (props) => {
   const handler = async () => {
@@ -9,11 +10,17 @@ const index = (props) => {
       console.log(response.data.meetupIds);
     } catch (error) {
       console.log(error.message);
-  }
-  }
+    }
+  };
   handler();
   return (
     <>
+      <Head>
+        <title>React Meetups</title>
+        <meta name="description" content="Browse a huge list of highly active React meetups!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta author="devProMaleek" />
+      </Head>
       <MeetupList meetups={props.meetups} />
     </>
   );
@@ -25,7 +32,7 @@ export const getStaticProps = async () => {
   // fetch data from an API
   const response = await axios.get('http://localhost:3000/api/getMeetups');
   const meetups = response.data.meetups;
-  console.log(meetups)
+  console.log(meetups);
   return {
     props: {
       meetups: meetups,

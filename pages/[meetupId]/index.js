@@ -1,12 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import MeetupDetails from '../../components/meetups/MeetupDetails';
-import { DUMMY_MEETUPS as meetups } from '../index';
+import Head from 'next/head';
 
 const MeetupDetailsPage = (props) => {
   const meetupData = props.meetupData;
   return (
     <>
+    <Head>
+        <title>{meetupData.title}</title>
+        <meta name="description" content={meetupData.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta author="devProMaleek" />
+      </Head>
       <MeetupDetails
         image={meetupData.image}
         title={meetupData.title}
