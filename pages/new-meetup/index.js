@@ -1,5 +1,5 @@
 import React from 'react';
-import NewMeetUpForm from '../../components/meetups/NewMeetUpForm';
+import NewMeetUpForm from '../../components/meetups/NewMeetupForm';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
